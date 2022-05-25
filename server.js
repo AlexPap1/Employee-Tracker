@@ -20,8 +20,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true}));
 app.use(express.json());
 
-init();
-
 //function to start inquirer
 function init() {
     questions();
@@ -36,38 +34,88 @@ function questions() {
             choices: [
                 {
                     name:"View all departments",
-                    value: ""
+                    value: "viewDepartments"
                 },
                 {
                     name:"View all roles",
-                    value: ""
+                    value: "viewRoles"
                 },
                 {
                     name:"View all employees",
-                    value: ""
+                    value: "viewEmployees"
                 },
                 {
                     name:"Add a department",
-                    value: ""
+                    value: "addDepartments"
                 },
                 {
                     name:"Add a role",
-                    value: ""
+                    value: "addRoles"
                 },
                 {
                     name:"Add an employee",
-                    value: ""
+                    value: "addEmployees"
                 },
                 {
                     name:"Update an employee role",
-                    value: ""
+                    value: "updateEmployees"
                 },
             ]
         }
-    ])
+    ]).then(answers => {
+        let choice = answers.choice;
+        switch(choice) {
+            case "viewDepartments":
+                viewDepartments();
+                break;
+            case "viewRoles":
+                viewRoles();
+                break;
+            case "viewEmployees":
+                viewEmployees();
+                break;
+            case "addDepartments":
+                addDepartments();
+                break;
+            case "addRoles":
+                addRoles();
+                break;
+            case "addEmployees":
+                addEmployees();
+                break;
+            case "updateEmployees":
+                updateEmployees();
+                break;
+        }
+    })
 };
 
-//connection to port
-app.listen(PORT, function() {
-    console.log(`listening at ${PORT}`)
-});
+function viewDepartments() {
+    console.log('Viewing Departments');
+};
+
+function viewRoles() {
+    console.log('Viewing Roles');
+};
+
+function viewEmployees() {
+    console.log('Viewing Employees');
+};
+
+function addDepartments() {
+    console.log('Adding Departments');
+};
+
+function addRoles() {
+    console.log('Adding Roles');
+};
+
+function addEmployees() {
+    console.log('Adding Employees');
+};
+
+function updateEmployees() {
+    console.log('Updating Employees');
+};
+
+init();
