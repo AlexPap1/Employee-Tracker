@@ -1,24 +1,33 @@
 // Global variables
+const mysql = require('mysql');
 const inquirer = require("inquirer");
 const fs = require("fs");
 const express = require('express');
 const path = require('path');
 const { resourceLimits } = require('worker_threads');
-const connection = require('./db/connection');
+//const connection = require('./db/connection');
 const { inherits } = require("util");
+//const db = require("./db");
 //const consoleTable = require('console.table')
+
+const connection = mysql.createConnection({
+    host: '127.0.0.1',
+    port: 3306,
+    user: 'root',
+    password: 'password',
+    database: 'employee_db'
+},
+    console.log('connected to empoyee_db database')
+);
 
 // Tell node that we are creating an "express" server
 const app = express();
+
 // Sets an initial port. We"ll use this later in our listener
 const PORT = process.env.PORT || 3006;
 
 // Sets up the Express app to handle data parsing
 app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-
-//Set up Express app to handle data parsing
-app.use(express.urlencoded({ extended: true}));
 app.use(express.json());
 
 //function to start inquirer
@@ -93,11 +102,11 @@ function questions() {
 //view functions
 function viewDepartments() {
     console.log('Viewing Departments');
-    app.get('/department/get-all', (req, res) => {
-        const deptQuery = 'SELECT * FROM department';
-        connection.query(deptQuery, (err, res) => {
-            console.log(res)
-        });
+    connection.query('SELCT * FROM department', (err, res) => {
+        if (err) {
+            console.log(err);
+        }
+        console.log(res);
     })
     questions();
 };

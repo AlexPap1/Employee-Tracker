@@ -2,6 +2,7 @@ USE employee_db;
 
 INSERT INTO derpartment
     (name)
+    
 VALUES
     ('Payroll'),
     ('Accounting'),
