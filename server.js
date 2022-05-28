@@ -102,7 +102,6 @@ function viewDepartments() {
     var query = 'SELECT * FROM department';
     connection.query(query, (err, res) => {
         if (err) throw err;
-        console.log(res);
         console.table(res);
     })
     questions();
@@ -113,7 +112,6 @@ function viewRoles() {
     var query = 'SELECT * FROM roles';
     connection.query(query, (err, res) => {
         if (err) throw err;
-        console.log(res);
         console.table(res);
     })
     questions();
@@ -121,7 +119,7 @@ function viewRoles() {
 
 function viewEmployees() {
     console.log('Viewing Employees');
-    connection.query('SELECT * FROM employee', (err, res) => {
+    connection.query('SELECT employee.id, employee.first_name, employee.last_name, roles.title, roles.salary, department.names AS department FROM employee LEFT JOIN roles ON employee.role_id = roles.id LEFT JOIN department ON department.id = roles.department_id LEFT JOIN employee manager ON manager.id = employee.manager_id;', (err, res) => {
         if (err) {
             console.log(err);
         }
