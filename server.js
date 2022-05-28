@@ -155,15 +155,52 @@ function addDepartments() {
 
 function addRoles() {
     console.log('Adding Roles');
+
+    inquirer.prompt([
+        {
+            name: 'addRole',
+            type: 'input',
+            message: 'What is the name of the new role?'
+        },
+        {
+            name: 'addSalary',
+            type: 'input',
+            message: 'What is the salary of the new role?'
+        },
+        {
+            name: 'Department',
+            type: 'input',
+            message: "Which department does the role belong to?"
+
+        }
+    ]).then((res) => {
+        connection.query(
+            'INSERT INTO roles SET ?',
+            {
+                title: res.addRole,
+                salary: res.addSalary,
+                department_id: res.Department
+            }
+        );
+
+    var query = 'SELECT * FROM roles';
+    connection.query(query, (err, res) => {
+        if(err) throw err;
+        console.table(res);
+    })
+    questions();
+    });
 };
 
 function addEmployees() {
     console.log('Adding Employees');
+    questions();
 };
 
 //update functions
 function updateEmployees() {
     console.log('Updating Employees');
+    questions();
 };
 
 //console log to notify localhost active
