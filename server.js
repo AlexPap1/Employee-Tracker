@@ -6,11 +6,12 @@ const path = require('path');
 const { resourceLimits } = require('worker_threads');
 const connection = require('./db/connection');
 const { inherits } = require("util");
+//const consoleTable = require('console.table')
 
 // Tell node that we are creating an "express" server
 const app = express();
 // Sets an initial port. We"ll use this later in our listener
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3006;
 
 // Sets up the Express app to handle data parsing
 app.use(express.urlencoded({ extended: true }));
@@ -59,12 +60,11 @@ function questions() {
                 {
                     name:"Update an employee role",
                     value: "updateEmployees"
-                },
+                }
             ]
         }
-    ]).then(answers => {
-        let choice = answers.choice;
-        switch(choice) {
+    ]).then(choice => {
+        switch(choice.questions) {
             case "viewDepartments":
                 viewDepartments();
                 break;
@@ -90,8 +90,16 @@ function questions() {
     })
 };
 
+//view functions
 function viewDepartments() {
     console.log('Viewing Departments');
+    app.get('/department/get-all', (req, res) => {
+        const deptQuery = 'SELECT * FROM department';
+        connection.query(deptQuery, (err, res) => {
+            console.log(res)
+        });
+    })
+    questions();
 };
 
 function viewRoles() {
@@ -102,6 +110,7 @@ function viewEmployees() {
     console.log('Viewing Employees');
 };
 
+//add functions
 function addDepartments() {
     console.log('Adding Departments');
 };
@@ -114,8 +123,14 @@ function addEmployees() {
     console.log('Adding Employees');
 };
 
+//update functions
 function updateEmployees() {
     console.log('Updating Employees');
 };
+
+//console log to notify localhost active
+app.listen(PORT, () => {
+    console.log(`🌐 listening at http://localhost:${PORT}`)
+});
 
 init();
