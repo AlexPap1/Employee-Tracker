@@ -5,20 +5,20 @@ const fs = require("fs");
 const express = require('express');
 const path = require('path');
 const { resourceLimits } = require('worker_threads');
-//const connection = require('./db/connection');
+const connection = require('./db/connection');
 const { inherits } = require("util");
 //const db = require("./db");
 //const consoleTable = require('console.table')
 
-const connection = mysql.createConnection({
-    host: '127.0.0.1',
-    port: 3306,
-    user: 'root',
-    password: 'password',
-    database: 'employee_db'
-},
-    console.log('connected to empoyee_db database')
-);
+// const connection = mysql.createConnection({
+//     host: '127.0.0.1',
+//     port: 3306,
+//     user: 'root',
+//     password: 'password',
+//     database: 'employee_db'
+// },
+//     console.log('connected to empoyee_db database')
+// );
 
 // Tell node that we are creating an "express" server
 const app = express();
@@ -102,7 +102,7 @@ function questions() {
 //view functions
 function viewDepartments() {
     console.log('Viewing Departments');
-    connection.query('SELCT * FROM department', (err, res) => {
+    connection.query('SELECT * FROM department', (err, res) => {
         if (err) {
             console.log(err);
         }
@@ -117,6 +117,13 @@ function viewRoles() {
 
 function viewEmployees() {
     console.log('Viewing Employees');
+    connection.query('SELECT * FROM employee', (err, res) => {
+        if (err) {
+            console.log(err);
+        }
+        console.table(res);
+    })
+    questions();
 };
 
 //add functions

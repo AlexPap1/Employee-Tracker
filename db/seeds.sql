@@ -1,7 +1,7 @@
 USE employee_db;
 
-INSERT INTO derpartment
-    (name)
+INSERT INTO department
+    (names)
     
 VALUES
     ('Payroll'),
@@ -9,13 +9,13 @@ VALUES
     ('Human Resources'),
     ('Legal');
 
-INSERT INTO role
+INSERT INTO roles
     (title, salary, department_id)
 VALUES
     ('Payroll Manager', 40000, 1),
     ('Payroll', 25000, 1),
     ('General Ledger', 50000, 2),
-    ('Accounts Payable', 55000, 2)
+    ('Accounts Payable', 55000, 2),
     ('HR Manager', 50000, 3),
     ('Front Desk Secretary', 30000, 3),
     ('Paralegal', 80000, 4),
