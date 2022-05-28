@@ -155,7 +155,6 @@ function addDepartments() {
 
 function addRoles() {
     console.log('Adding Roles');
-
     inquirer.prompt([
         {
             name: 'addRole',
@@ -182,7 +181,6 @@ function addRoles() {
                 department_id: res.Department
             }
         );
-
     var query = 'SELECT * FROM roles';
     connection.query(query, (err, res) => {
         if(err) throw err;
@@ -194,12 +192,72 @@ function addRoles() {
 
 function addEmployees() {
     console.log('Adding Employees');
-    questions();
+    inquirer.prompt([
+        {
+            name: 'addEmployeeFN',
+            type: 'input',
+            message: 'What is their first name?'
+        },
+        {
+            name: 'addEmployeeLN',
+            type: 'input',
+            message: 'What is their last name?'
+        },
+        {
+            name: 'role',
+            type: 'input',
+            message: "What is their role id?"
+
+        },
+        {
+            name: 'manager',
+            type: 'input',
+            message: "What is their manager id?"
+
+        }
+    ]).then((res) => {
+        connection.query(
+            'INSERT INTO employee SET ?',
+            {
+                first_name: res.addEmployeeFN,
+                last_name: res.addEmployeeLN,
+                role_id: res.role,
+                manager_id: res.manager
+            }
+        );
+    viewEmployees();
+    });
 };
 
 //update functions
 function updateEmployees() {
     console.log('Updating Employees');
+    inquirer.prompt([
+        {
+            type: 'input',
+            name: 'old_id',
+            message: "What is the id number of the employee you'd like to update?"
+        },
+        {
+            type: 'input',
+            name: 'new_role',
+            message: 'What is the id number of the new role for this employee?',
+        }
+    ]).then((res) => {
+        console.log("Updating the employee role")
+        connection.query('SELECT id FROM employee WHERE id=${res.old_id}');
+        connection.query('UPDATE employee SET ? WHERE role_id=${res.old_id}',
+        {
+            role_id: res.new_role,
+        });
+    })
+}
+    connection.query('SELECT * FROM employee', (err, res) => {
+        if (err) {
+            console.log(err);
+        }
+        console.table(res);
+        })
     questions();
 };
 
