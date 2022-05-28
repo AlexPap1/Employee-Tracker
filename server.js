@@ -131,6 +131,26 @@ function viewEmployees() {
 //add functions
 function addDepartments() {
     console.log('Adding Departments');
+    inquirer.prompt([
+        {
+            name: 'addDepartment',
+            type: 'input',
+            message: 'What is the name of the new department?'
+        }
+    ]).then((res) => {
+        connection.query(
+            'INSERT INTO department SET ?',
+            {
+                names: res.addDepartment
+            }
+        );
+        var query = 'SELECT * FROM department';
+        connection.query(query, (err, res) => {
+            if(err) throw err;
+            console.table(res);
+        })
+        questions();
+    })
 };
 
 function addRoles() {
