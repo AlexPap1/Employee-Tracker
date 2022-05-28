@@ -245,20 +245,19 @@ function updateEmployees() {
         }
     ]).then((res) => {
         console.log("Updating the employee role")
-        connection.query('SELECT id FROM employee WHERE id=${res.old_id}');
-        connection.query('UPDATE employee SET ? WHERE role_id=${res.old_id}',
+        connection.query(`SELECT id FROM employee WHERE id=${res.old_id}`);
+        connection.query(`UPDATE employee SET ? WHERE role_id=${res.old_id}`,
         {
             role_id: res.new_role,
         });
+        connection.query('SELECT * FROM employee', (err, res) => {
+            if (err) {
+                console.log(err);
+            }
+            console.table(res);
+            })
+        questions();
     })
-}
-    connection.query('SELECT * FROM employee', (err, res) => {
-        if (err) {
-            console.log(err);
-        }
-        console.table(res);
-        })
-    questions();
 };
 
 //console log to notify localhost active
